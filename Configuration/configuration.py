@@ -10,4 +10,5 @@ class Configuration:
         data = open(self.filename)
         self.config = json.load(data)
 
-    
+    def get_database_location(self):
+        return self.config['databaselocation']

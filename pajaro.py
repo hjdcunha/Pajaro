@@ -1,12 +1,16 @@
-from http import client
+from time import sleep
 from multiprocessing.connection import Client
 import tweepy
 import pprint
 import Configuration.secret as sc
+from Configuration.configuration import Configuration
+from Database.database import PajaroDatabase
 
 class Pajaro:
-    def __init__(self, filename):
-        self.authentication_TWAPIv11(sc.get_secrets(filename))
+    def __init__(self, sfilename, cfilename):
+        self.authentication_TWAPIv11(sc.get_secrets(sfilename))
+        self.config = Configuration(cfilename)
+        self.db = PajaroDatabase(self.config)
 
     def authentication_TWAPIv11(self, secret):
         auth = tweepy.OAuth1UserHandler(str(secret[0]['api_key']),
@@ -35,3 +39,7 @@ class Pajaro:
     def get_user_settings(self):
         pp = pprint.PrettyPrinter(indent=2)
         pp.pprint(self.api.get_settings())
+
+    def run(self):
+        self.db.insert_posts_from_fetcher()
+        sleep(3600)
