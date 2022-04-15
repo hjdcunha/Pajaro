@@ -69,6 +69,7 @@ class Pajaro:
     
 
     def run(self):
+        self.config.reload_config()
         self.post_latest_tweet()
         sleep(random.randint(600, 900))
             
