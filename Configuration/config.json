@@ -1,4 +1,5 @@
 {
     "databaselocation_": "/home/pi/rss-fetcher-database.db",
-    "databaselocation": "/Users/haydz/Documents/rss-fetcher-database.db"
+    "databaselocation": "/Users/haydz/Documents/rss-fetcher-database.db",
+    "fetch_limit": 20
 }

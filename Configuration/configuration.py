@@ -12,3 +12,6 @@ class Configuration:
 
     def get_database_location(self):
         return self.config['databaselocation']
+
+    def get_fetch_limit(self):
+        return self.config['fetch_limit']

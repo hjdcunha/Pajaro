@@ -53,8 +53,8 @@ class PajaroDatabase:
     def insert_posts_from_fetcher(self):
         self.db_cursor.execute('''
             SELECT PostTitle, PostLink, PostPublishedDate, PostHashtags from Data
-            ORDER BY ID DESC LIMIT 10
-        ''')
+            ORDER BY ID DESC LIMIT ?
+        ''', (self.config.get_fetch_limit(),))
         data = self.db_cursor.fetchall()
         data.reverse()
         for post in data:
