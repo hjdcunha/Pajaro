@@ -1,3 +1,4 @@
+from distutils.util import execute
 import sqlite3
 import os
 from datetime import datetime
@@ -27,7 +28,6 @@ class PajaroDatabase:
                     PostedAt DATETIME DEFAULT NULL,
                     PostID TEXT DEFAULT NULL,
                     LikeCount INTEGER DEFAULT NULL,
-                    CommentCount INTEGER DEFAULT NULL,
                     RetweetCount INTEGER DEFAULT NULL,
                     EntryDate DATETIME DEFAULT (datetime('now','localtime')),
                     UpdatedAt DATETIME DEFAULT (datetime('now','localtime'))
@@ -62,6 +62,25 @@ class PajaroDatabase:
                 self.db_cursor.execute('''
                     INSERT INTO Posts(PostTitle, PostLink, PostPublishedDate, PostHashtags)
                     VALUES(?,?,?,?)''', (post[0], post[1], post[2], post[3]))
-            except Exception as e:
-                print(e)
+            except Exception:
+                pass
+        self.db.commit()
+
+    def get_latest_not_posted(self):
+        self.db_cursor.execute('''
+            SELECT Id, PostTitle, PostLink, PostHashtags from Posts
+            WHERE Posted='FALSE' ORDER BY ID DESC LIMIT 1
+        ''')
+        return self.db_cursor.fetchone()
+
+    def set_post_as_posted(self, id):
+        self.db_cursor.execute('''
+            UPDATE Posts SET Posted='TRUE' WHERE Id=?
+        ''', (id,))
+        self.db.commit()
+
+    def update_post_metrics(self, post_id, post):
+        self.db_cursor.execute('''
+            UPDATE Posts SET PostedAt=?, PostID=?, LikeCount=?, RetweetCount=?, UpdatedAt=(datetime('now','localtime')) WHERE Id=?
+        ''', (post.created_at, post.id, post.favorite_count, post.retweet_count, post_id))
         self.db.commit()
