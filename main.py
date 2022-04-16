@@ -7,3 +7,4 @@ bot = pajaro.Pajaro(sys.argv[1], sys.argv[2])
 
 while True:
     bot.run()
+    

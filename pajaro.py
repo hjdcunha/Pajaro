@@ -1,3 +1,4 @@
+from numbers import Rational
 from time import sleep
 from multiprocessing.connection import Client
 import tweepy
@@ -66,10 +67,35 @@ class Pajaro:
             print(e)
             pass
     
+    def create_hashtags_search_list(self):
+        self.search_list = ""
+        for hashtag in self.config.get_hashtag_list():
+            if hashtag != self.config.get_hashtag_list()[-1]:
+                self.search_list = self.search_list + hashtag + " OR "
+            else:
+                self.search_list = self.search_list + hashtag
+
+    def favourite_hastag_follow_user(self):
+        for tweet in tweepy.Cursor(self.api.search_tweets, self.search_list, lang='en').items(int(self.config.get_max_tweets())):
+            if not bool(tweet.favorited):
+                try:
+                    tweet.favorite()
+                    print("Tweet: " + str(tweet.id) + " " + str(tweet.favorited) + " Screen Name: " + str(tweet.user.screen_name))
+                    sleep(random.randint(3, 12))
+                    if not tweet.user.following:
+                        tweet.user.follow()
+                        print('Followed User: ' + str(tweet.user.screen_name))
+                        sleep(random.randint(3, 12))
+                    self.db.insert_into_favourited_table(tweet)
+                    self.db.insert_into_followed_table(tweet)
+                except Exception as e:
+                    print(e)
 
     def run(self):
         self.config.reload_config()
         self.post_latest_tweet()
+        self.create_hashtags_search_list()
+        self.favourite_hastag_follow_user()
         sleep(random.randint(600, 900))
             
 

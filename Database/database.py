@@ -47,8 +47,51 @@ class PajaroDatabase:
                 ''')
             self.db.commit()
 
+            # Favourited Table
+            self.db_cursor.execute('''
+                CREATE TABLE IF NOT EXISTS Favourited(
+                    Id INTEGER PRIMARY KEY,
+                    TweetId TEXT,
+                    Caption TEXT,
+                    UserName TEXT,
+                    CreatedAt TEXT,
+                    EntryDate DATETIME DEFAULT (datetime('now','localtime'))
+                    )
+                ''')
+            self.db.commit()
+
+            # Followed Table
+            self.db_cursor.execute('''
+                CREATE TABLE IF NOT EXISTS Followed(
+                    Id INTEGER PRIMARY KEY,
+                    UserId TEXT,
+                    UserName TEXT,
+                    UserLocation TEXT,
+                    EntryDate DATETIME DEFAULT (datetime('now','localtime'))
+                    )
+                ''')
+            self.db.commit()
+
         except Exception as e:
             print("Posts Table Creation Error: {0}", e)
+
+    def insert_into_followed_table(self, tweet):
+        try:
+            self.db_cursor.execute('''
+            INSERT INTO Followed(UserId, UserName, UserLocation)
+            VALUES(?,?,?)''', (str(tweet.user.id), str(tweet.screen_name), str(tweet.user.location)))
+        except Exception as e:
+            print("From Followed table: " + e)
+        self.db.commit()
+
+    def insert_into_favourited_table(self, tweet):
+        try:
+            self.db_cursor.execute('''
+            INSERT INTO Favourited(TweetId, Caption, UserName, CreatedAt)
+            VALUES(?,?,?,?)''', (str(tweet.id), str(tweet.text), tweet.user.screen_name, tweet.created_at))
+        except Exception as e:
+            print("From Favourites table: " + e)
+        self.db.commit()
 
     def insert_posts_from_fetcher(self):
         self.db_cursor.execute('''

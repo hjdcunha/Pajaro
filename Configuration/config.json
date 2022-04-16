@@ -1,5 +1,14 @@
 {
-    "databaselocation": "/home/pi/rss-fetcher-database.db",
-    "databaselocation_": "/Users/haydz/Documents/rss-fetcher-database.db",
-    "fetch_limit": 20
+    "databaselocation_": "/home/pi/rss-fetcher-database.db",
+    "databaselocation": "/Users/haydz/Documents/rss-fetcher-database.db",
+    "fetch_limit": 20,
+    "hashtags": [
+        "#ukdrill", "#drillers", "#grimemusic", "#ukrap", "#drillbeats", "#youngadz", "#stormzy", "#dave",
+        "#drake", "#rihanna", "#travisscott", "#jackharlow", "#rnb", "#hiphop",
+        "#day1", "#youngnlipz", "#hpboyz", "#audollars", "#ausdrill", "#audrap"
+    ],
+    "max_tweets": 50
+
 }
+
+

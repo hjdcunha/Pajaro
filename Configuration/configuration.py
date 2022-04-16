@@ -15,3 +15,9 @@ class Configuration:
 
     def get_fetch_limit(self):
         return self.config['fetch_limit']
+
+    def get_hashtag_list(self):
+        return self.config['hashtags']
+    
+    def get_max_tweets(self):
+        return self.config['max_tweets']
