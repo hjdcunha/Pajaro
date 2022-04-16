@@ -1,4 +1,3 @@
-from itertools import count
 from time import sleep
 from multiprocessing.connection import Client
 import tweepy
