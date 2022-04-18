@@ -91,6 +91,15 @@ class Pajaro:
                 except Exception as e:
                     print(e)
 
+    def unfollow(self):
+        followers = self.api.get_followers(count=50)
+        friends = self.api.get_friends(count=50)
+
+        for f in friends:
+            if f not in followers:
+                print("Unfollowing " + self.api.get_user(f).screen_name)
+                self.api.destroy_friendship(f)
+
     def run(self):
         self.config.reload_config()
         self.post_latest_tweet()
