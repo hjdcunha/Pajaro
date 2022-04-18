@@ -92,6 +92,8 @@ class Pajaro:
                     print(e)
 
     def unfollow(self):
+        # Need to Insert a check to see if the user was followed more than 2 days ago.
+
         followers = self.api.get_followers(count=50)
         friends = self.api.get_friends(count=50)
 
