@@ -108,7 +108,7 @@ class Pajaro:
                 self.api.destroy_friendship(user_id = f.id)
                 sleep(random.randint(3, 12))
                 count = count + 1
-            if count == 20:
+            if count == 50:
                 break
 
     def run(self):
