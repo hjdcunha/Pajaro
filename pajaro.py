@@ -119,7 +119,6 @@ class Pajaro:
         sleep(random.randint(600, 900))
         self.unfollow()
         sleep(random.randint(150, 300))
-        quit()
             
 
         
