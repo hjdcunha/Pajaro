@@ -94,13 +94,22 @@ class Pajaro:
     def unfollow(self):
         # Need to Insert a check to see if the user was followed more than 2 days ago.
 
-        followers = self.api.get_followers(count=50)
-        friends = self.api.get_friends(count=50)
+        followers = self.api.get_followers()
+        friends = self.api.get_friends()
+
+        followers.reverse()
+        friends.reverse()
+
+        count = 0
 
         for f in friends:
             if f not in followers:
-                print("Unfollowing " + self.api.get_user(f).screen_name)
-                self.api.destroy_friendship(f)
+                print("Unfollowing " + f.screen_name)
+                self.api.destroy_friendship(user_id = f.id)
+                sleep(random.randint(3, 12))
+                count = count + 1
+            if count == 20:
+                break
 
     def run(self):
         self.config.reload_config()
@@ -108,6 +117,9 @@ class Pajaro:
         self.create_hashtags_search_list()
         self.favourite_hastag_follow_user()
         sleep(random.randint(600, 900))
+        self.unfollow()
+        sleep(random.randint(150, 300))
+        quit()
             
 
         

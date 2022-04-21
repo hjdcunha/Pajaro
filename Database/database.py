@@ -79,7 +79,7 @@ class PajaroDatabase:
         try:
             self.db_cursor.execute('''
             INSERT INTO Followed(UserId, UserName, UserLocation)
-            VALUES(?,?,?)''', (str(tweet.user.id), str(tweet.screen_name), str(tweet.user.location)))
+            VALUES(?,?,?)''', (str(tweet.user.id), str(tweet.user.screen_name), str(tweet.user.location)))
         except Exception as e:
             print("From Followed table: " + e)
         self.db.commit()
